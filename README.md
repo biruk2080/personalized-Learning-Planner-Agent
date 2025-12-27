@@ -1,19 +1,21 @@
 # Personalized Learning Planner Agent
 
-A sophisticated AI-powered learning assistant that creates personalized learning plans based on user skills and goals. Built with LangChain, LangGraph, and Gradio for an interactive experience.
+A sophisticated AI-powered learning assistant that creates personalized learning plans based on user skills and goals. Built with LangChain, LangGraph, and Gradio for an interactive experience. 
 
 ## Features
 
-- **Skills Assessment**: Analyzes user skills and provides a summary of strengths and weaknesses.
-- **Curriculum Generation**: Breaks down learning goals into actionable curriculum items.
-- **Customizable Plans**: Generates learning plans for a specified number of days.
-- **Interactive UI**: Web-based interface using Gradio for easy interaction.
-- **Modular Architecture**: Uses LangGraph for state management and workflow orchestration.
+- Skills Assessment: Analyzes user skills and provides a summary of strengths and weaknesses.
+- Curriculum Generation: Breaks down learning goals into actionable curriculum items.
+- Customizable Plans: Generates learning plans for a specified number of days.
+- Interactive UI: Web-based interface using Gradio for easy interaction.
+- Modular Architecture: Uses LangGraph for state management and workflow orchestration.
 
 ## Requirements
 
 - Python 3.8+
 - OpenAI API Key (for LLM interactions)
+- LangGraph and LangChain 
+- HuggingFace Gradio 
 
 ## Installation
 
@@ -55,20 +57,19 @@ A sophisticated AI-powered learning assistant that creates personalized learning
 ## How It Works
 
 The agent uses a state graph with the following nodes:
-1. **Assess Skills**: Evaluates user skills and goals to provide a summary.
-2. **Decompose Goals**: Creates a step-by-step curriculum.
-3. **Create Plan**: Generates a detailed daily learning plan.
-4. **Summarize Progress**: Suggests next steps.
+1. Assess Skills: Evaluates user skills and goals to provide a summary.
+2. Decompose Goals: Creates a step-by-step curriculum.
+3. Create Plan: Generates a detailed daily learning plan.
+4. Summarize Progress: Suggests next steps.
 
 Each node leverages OpenAI's GPT model for intelligent content generation.
 
-## Contributing
-
-Contributions are welcome! Please fork the repository and submit a pull request.
+## Contribuer 
+Biruk Geletu
+Linkedin: https://www.linkedin.com/in/biruk-geletu/
 
 ## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is built for learing purpose to demonstrate the capability of LangGraph to build complex task. 
 
 ## Acknowledgments
 
