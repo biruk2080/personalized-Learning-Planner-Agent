@@ -1,6 +1,8 @@
 # Personalized Learning Planner Agent
 
-A sophisticated AI-powered learning assistant that creates personalized learning plans based on user skills and goals. Built with LangChain, LangGraph, and Gradio for an interactive experience. 
+This demo showcases a sophisticated AI-powered learning assistant that generates personalized learning plans based on a user’s current skills, learning goals, and available time.
+
+Built with LangChain, LangGraph, and use Huggingface Gradio UI and space to deploy and serve, the system demonstrates how modern LLM workflows can be orchestrated into a modular, state-driven AI agent with an interactive web interface.
 
 ## Features
 
@@ -15,7 +17,7 @@ A sophisticated AI-powered learning assistant that creates personalized learning
 - Python 3.8+
 - OpenAI API Key (for LLM interactions)
 - LangGraph and LangChain 
-- HuggingFace Gradio 
+- HuggingFace Gradio and space server 
 
 ## Installation
 
