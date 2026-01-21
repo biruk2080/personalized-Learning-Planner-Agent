@@ -63,9 +63,6 @@ Each node leverages OpenAI's GPT model for intelligent content generation.
 Biruk Geletu
 Linkedin: https://www.linkedin.com/in/biruk-geletu/
 
-## License
-This project is built for learing purpose to demonstrate the capability of LangGraph to build complex task. 
-
 ## Acknowledgments
 
 - Built with [LangChain](https://www.langchain.com/) and [LangGraph](https://www.langchain.com/langgraph).
