@@ -2,19 +2,26 @@
 The project idea came to my mind after i attended last year my current company annual meeting. Ignite of AI in NIIT Services was the theme of the meering, it focused on the revolution of AI in different industry and the company is empracing this technology to provide better learning service for the client. The idea resonated in me to build this project. This AI-powered learning assistant that generates personalized learning plans based on a user’s current skills, learning goals, and available time. The user provides the current skill set, learning goals and the time to achieve the learning goals, then the Agent take the input to generate customize learning plan by analyzing the skill gap between current user's skills and learning goals then break down into hours, days, months, and years based on available time the user provided. It improves user engagement and experience by customizing the learning process with small interaction. The system orchestrate LLM workflows into prompt chain modular, state-driven AI agent with an interactive web interface. It built with LangChain, LangGraph, OpenAI ChatGPT-5 model, Gradio UI and deployed on Huggingface space server.
 
 ## Features
-
 - Skills Assessment: Analyzes user skills and provides a summary of strengths and weaknesses.
-- Curriculum Generation: Breaks down learning goals into actionable curriculum items.
+- Curriculum developer: Breaks down learning goals into actionable curriculum items.
 - Customizable Plans: Generates learning plans for a specified number of days.
+- Summarize Progress: Suggests next steps.
 - Interactive UI: Web-based interface using Gradio for easy interaction.
-- Modular Architecture: Uses LangGraph for state management and workflow orchestration.
 
 ## Requirements
-
 - Python 3.8+
-- OpenAI API Key (for LLM interactions)
-- LangGraph and LangChain 
-- HuggingFace Gradio and space server 
+- OpenAI API Key (for LLM chat )
+- LangGraph and LangChain (For LLM integration and orchestration)
+- HuggingFace space server (For deployement)
+- Gradio UI (For User interaction)
+
+## How It Works
+The agent uses a state graph with the following nodes:
+1. Assess Skills Node: Evaluates user skills and goals to provide a summary to Curriculum developer.
+2. Curriculum developer: Creates a step-by-step curriculum based on the summery of the user skill gap and goal and send to Customizable Plans.
+3. Customizable Plans: Generates a detailed daily learning plan based on developed plan.
+4. Summarize Progress: Suggests next steps.
+Each node leverages OpenAI's GPT model for intelligent content generation.
 
 ## Installation
 
@@ -42,22 +49,6 @@ The project idea came to my mind after i attended last year my current company a
 3. Input your current skills, learning goals, and the number of days for the plan.
 
 4. Click "Generate Learning Plan" to receive a personalized plan.
-
-## Project Structure
-
-- `PlannerAgent.py`: Main application file containing the LangGraph workflow and Gradio UI.
-- `README.md`: This file.
-- `.env`: Environment variables (not included in repo).
-
-## How It Works
-
-The agent uses a state graph with the following nodes:
-1. Assess Skills: Evaluates user skills and goals to provide a summary.
-2. Decompose Goals: Creates a step-by-step curriculum.
-3. Create Plan: Generates a detailed daily learning plan.
-4. Summarize Progress: Suggests next steps.
-
-Each node leverages OpenAI's GPT model for intelligent content generation.
 
 ## Contribuer 
 Biruk Geletu
