@@ -42,8 +42,13 @@ class SummarizeProgressOutput(BaseModel):
 def assess_skills(state: LearningState) -> LearningState:
     """Ask LLM to analyze user skills and produce structured skill profile"""
     prompt = f"""
-    You are a professional learning assistant. Analysis the user skills {', '.join(state.current_skills)} and learning goals {', '.join(state.learning_goals)}.
-    Provide a summary of strengths and weaknesses of the user's skills to achieve the learning goals.
+    You are a professional learning assessment specialist. Analyze the following:
+    
+    Current Skills: {', '.join(state.current_skills)}
+    Learning Goals: {', '.join(state.learning_goals)}
+    
+    Provide a concise summary of the user's strengths and weaknesses relevant to achieving their learning goals.
+    Format your response as a professional assessment summary.
     """
     llm_structured = llm.with_structured_output(AssessSkillsOutput)
     response = llm_structured.invoke(prompt)
@@ -53,9 +58,18 @@ def assess_skills(state: LearningState) -> LearningState:
 def decompose_goals(state: LearningState) -> LearningState:
     """Break learning goals into actionable curriculum items"""
     prompt = f"""
-    you are professional learning assistant specilaized in creating personalized learning plans using the user's
-    learning goals: {', '.join(state.learning_goals)}, current skills: {', '.join(state.current_skills)} and 
-    summary of strengths and weaknesses: {', '.join(state.summary)} to Break into step-by-step actionable curriculum.
+    You are a professional curriculum designer specialized in creating personalized learning paths.
+    
+    Current Skills: {', '.join(state.current_skills)}
+    Learning Goals: {', '.join(state.learning_goals)}
+    Skills Assessment: {state.summary}
+    
+    Break down these learning goals into a step-by-step actionable curriculum. Each curriculum item should be:
+    - Specific and measurable
+    - Logically ordered for progressive learning
+    - Realistic to complete
+    
+    Return a numbered list of curriculum items.
     """
     llm_structured = llm.with_structured_output(DecomposeGoalsOutput)
     response = llm_structured.invoke(prompt)
@@ -65,8 +79,18 @@ def decompose_goals(state: LearningState) -> LearningState:
 def create_weekly_plan(state: LearningState) -> LearningState:
     """Generate a weekly learning plan based on curriculum"""
     prompt = f"""
-    Given the curriculum: {', '.join(state.curriculum)},
-    create a {state.num_days}-day learning plan with detail implementation for each plan using a given curriculum.
+    You are an expert learning planner. Create a detailed {state.num_days}-day learning plan.
+    
+    Curriculum to cover: {', '.join(state.curriculum)}
+    
+    Requirements:
+    - Distribute all curriculum items across {state.num_days} days
+    - Each daily plan should have specific, actionable tasks
+    - Include estimated time for each task
+    - Ensure progressive difficulty and logical sequencing
+    - Do not add items outside the provided curriculum
+    
+    Return each day's plan in a clear, organized format with tasks and time estimates.
     """
     llm_structured = llm.with_structured_output(CreateWeeklyPlanOutput)
     response = llm_structured.invoke(prompt)
@@ -76,13 +100,21 @@ def create_weekly_plan(state: LearningState) -> LearningState:
 def summarize_progress(state: LearningState) -> LearningState:
     """Summarize learning progress and suggest next steps"""
     prompt = f"""
-    User {state.user_name} has completed the following weekly plan: {', '.join(state.weekly_plan)}.
-    Summarize their progress and suggest next steps.
+    You are a learning coach providing progress feedback.
+    
+    User: {state.user_name}
+    Completed Weekly Plan: {', '.join(state.weekly_plan)}
+    
+    Provide:
+    1. A concise summary of learning progress and key achievements
+    2. Specific next steps for continued learning
+    
+    Format the next steps as a numbered list of actionable recommendations.
     """
     llm_structured = llm.with_structured_output(SummarizeProgressOutput)
     response = llm_structured.invoke(prompt)
     state.next_steps = response.next_steps
-    # Note: 'summary' not in state, ignoring
+    state.summary = response.summary
     return state
 
 # Build the State Graph
