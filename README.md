@@ -17,10 +17,11 @@ This AI-powered learning assistant that generates personalized learning plans ba
 
 ## How It Works
 The agent uses a state graph with the following nodes:
-1. Assess Skills Node: Evaluates user skills and goals to provide a summary to Curriculum developer.
-2. Curriculum developer: Creates a step-by-step curriculum based on the summery of the user skill gap and goal and send to Customizable Plans.
-3. Customizable Plans: Generates a detailed daily learning plan based on developed plan.
-4. Summarize Progress: Suggests next steps.
+1. User input: Current skill, New skills need to have, Study goal and time frame 
+2. Assess Skills Node: Evaluates user skills and goals to provide a summary to Curriculum developer.
+3. Curriculum developer: Creates a step-by-step curriculum based on the summery of the user skill gap and goal and send to Customizable Plans.
+4. Customizable Plans: Generates a detailed daily learning plan based on developed plan.
+5. Summarize Progress: Suggests next steps.
 Each node leverages OpenAI's GPT model for intelligent content generation.
 
 ## Installation
@@ -57,4 +58,4 @@ Linkedin: https://www.linkedin.com/in/biruk-geletu/
 ## Acknowledgments
 
 - Built with [LangChain](https://www.langchain.com/) and [LangGraph](https://www.langchain.com/langgraph).
-- UI powered by [Gradio](https://www.gradio.app/).# personalized-Learning-Planner-Agent
+- UI powered by [Gradio](https://www.gradio.app/)
