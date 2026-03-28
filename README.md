@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **Personalized Learning Path Agent** is an AI-powered application that generates a customized learning curriculum and daily study plan based on a user's current skills and learning goals. It uses prompt-chain technique with LangGraph state machine to orchestrate a series of LLM-powered steps, and exposes a simple web interface via Gradio.
+The **Personalized Learning Path Agent** is an AI-powered application that generates a customized learning curriculum and daily study plan based on a user's current skills and learning goals. It uses prompt chain technque on LangGraph state machine to orchestrate a series of LLM-powered steps, and exposes a simple web interface via Gradio.
 
 ---
 
@@ -17,6 +17,8 @@ The **Personalized Learning Path Agent** is an AI-powered application that gener
 | **UI Framework** | Gradio | Latest | Browser-based web interface for user inputs and displaying results |
 | **Configuration** | python-dotenv | Latest | Loads `OPENAI_API_KEY` from `.env` file at runtime |
 | **Language** | Python | 3.9+ | Application runtime |
+
+---
 
 ## Architecture
 
@@ -68,6 +70,10 @@ The system is composed of three layers: a **UI layer** (Gradio), an **orchestrat
 │     AssessSkillsOutput │ DecomposeGoalsOutput         │
 │     CreateWeeklyPlanOutput │ SummarizeProgressOutput  │
 └──────────────────────────────────────────────────────┘
+```
+
+
+---
 
 ## Workflow
 
@@ -76,6 +82,9 @@ The agent runs four sequential nodes, each calling the LLM with a specialized pr
 ```
 Assess Skills → Decompose Goals → Create Weekly Plan → Summarize Progress
 ```
+
+---
+
 ## State Schema
 
 All data flows through a shared `LearningState` Pydantic model:
@@ -90,6 +99,8 @@ All data flows through a shared `LearningState` Pydantic model:
 | `next_steps` | `List[str]` | Post-plan recommendations (populated by node 4) |
 | `num_days` | `int` | Number of days to plan for |
 | `summary` | `str` | Skills assessment or progress summary (updated by nodes 1 and 4) |
+
+---
 
 ## Output Schemas
 
@@ -154,7 +165,10 @@ OPENAI_API_KEY=your_openai_api_key_here
 ```bash
 python app.py
 ```
+
 The Gradio interface will launch locally and print a public shareable link (via `share=True`).
+
+---
 
 ## Configuration
 
@@ -172,6 +186,8 @@ llm = ChatOpenAI(
 ### Adjusting Prompts
 
 Each node function contains its own prompt string. To customize the agent's behavior (e.g., focus on a specific domain like coding or language learning), edit the prompt text inside the relevant node function (`assess_skills`, `decompose_goals`, etc.).
+
+---
 
 ## Contribuer 
 Biruk Geletu
