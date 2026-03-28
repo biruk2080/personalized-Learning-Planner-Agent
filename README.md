@@ -2,7 +2,7 @@
 
 ## Overview
 
-The **Personalized Learning Path Agent** is an AI-powered application that generates a customized learning curriculum and daily study plan based on a user's current skills and learning goals. It uses a LangGraph state machine to orchestrate a series of LLM-powered steps, and exposes a simple web interface via Gradio.
+The **Personalized Learning Path Agent** is an AI-powered application that generates a customized learning curriculum and daily study plan based on a user's current skills and learning goals. It uses prompt-chain technique with LangGraph state machine to orchestrate a series of LLM-powered steps, and exposes a simple web interface via Gradio.
 
 ---
 
