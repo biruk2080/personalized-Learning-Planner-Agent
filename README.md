@@ -18,15 +18,6 @@ The **Personalized Learning Path Agent** is an AI-powered application that gener
 | **Configuration** | python-dotenv | Latest | Loads `OPENAI_API_KEY` from `.env` file at runtime |
 | **Language** | Python | 3.9+ | Application runtime |
 
-### Key Design Choices
-
-- **Pydantic v1 (not v2):** LangChain's `.with_structured_output()` integration expects `pydantic.v1` models. Using native Pydantic v2 classes will cause compatibility errors.
-- **GPT-4o-mini:** Chosen for cost-efficiency and speed. Can be swapped for `gpt-4o` for higher-quality output at greater cost.
-- **LangGraph `StateGraph`:** Provides a clear, inspectable execution graph rather than a linear chain, making it easier to add conditional branching or parallel nodes in the future.
-- **Gradio `Blocks` API:** Used instead of `gr.Interface` for more granular layout control over inputs, outputs, and the run button.
-
----
-
 ## Architecture
 
 The agent is built on three core libraries:
@@ -77,23 +68,6 @@ The system is composed of three layers: a **UI layer** (Gradio), an **orchestrat
 │     AssessSkillsOutput │ DecomposeGoalsOutput         │
 │     CreateWeeklyPlanOutput │ SummarizeProgressOutput  │
 └──────────────────────────────────────────────────────┘
-```
-
-### Data Flow Summary
-
-1. The user provides skills, goals, and number of days in the Gradio UI.
-2. `run_agent()` initialises a `LearningState` and invokes the compiled LangGraph chain.
-3. Each graph node calls the LLM with a role-specific prompt, receives a typed structured output, and writes results back into the shared state.
-4. After all four nodes complete, the final state is returned and the Gradio outputs are populated.
-
-### Key Architectural Properties
-
-- **Stateless between sessions** — `LearningState` is created fresh per invocation; nothing persists across runs.
-- **Sequential, not parallel** — nodes execute one after another; each node depends on the output of the prior one.
-- **Strongly typed at every boundary** — Pydantic models enforce schema at both the state level and the per-node LLM output level, catching hallucinated or malformed responses early.
-- **Decoupled UI and logic** — the Gradio layer calls a single `run_agent()` function; the graph internals are fully independent of the UI framework.
-
----
 
 ## Workflow
 
@@ -102,29 +76,6 @@ The agent runs four sequential nodes, each calling the LLM with a specialized pr
 ```
 Assess Skills → Decompose Goals → Create Weekly Plan → Summarize Progress
 ```
-
-### 1. Assess Skills
-- **Input:** `current_skills`, `learning_goals`
-- **Output:** `summary` — a concise professional assessment of the user's strengths and gaps relative to their goals
-- **LLM role:** Learning assessment specialist
-
-### 2. Decompose Goals
-- **Input:** `current_skills`, `learning_goals`, `summary`
-- **Output:** `curriculum` — a numbered, ordered list of specific and measurable learning items
-- **LLM role:** Curriculum designer
-
-### 3. Create Weekly Plan
-- **Input:** `curriculum`, `num_days`
-- **Output:** `weekly_plan` — a day-by-day plan distributing curriculum items with time estimates
-- **LLM role:** Learning planner
-
-### 4. Summarize Progress
-- **Input:** `user_name`, `weekly_plan`
-- **Output:** Updated `summary` and `next_steps` — an achievement summary and actionable recommendations
-- **LLM role:** Learning coach
-
----
-
 ## State Schema
 
 All data flows through a shared `LearningState` Pydantic model:
@@ -139,8 +90,6 @@ All data flows through a shared `LearningState` Pydantic model:
 | `next_steps` | `List[str]` | Post-plan recommendations (populated by node 4) |
 | `num_days` | `int` | Number of days to plan for |
 | `summary` | `str` | Skills assessment or progress summary (updated by nodes 1 and 4) |
-
----
 
 ## Output Schemas
 
@@ -205,10 +154,7 @@ OPENAI_API_KEY=your_openai_api_key_here
 ```bash
 python app.py
 ```
-
 The Gradio interface will launch locally and print a public shareable link (via `share=True`).
-
----
 
 ## Configuration
 
@@ -226,18 +172,6 @@ llm = ChatOpenAI(
 ### Adjusting Prompts
 
 Each node function contains its own prompt string. To customize the agent's behavior (e.g., focus on a specific domain like coding or language learning), edit the prompt text inside the relevant node function (`assess_skills`, `decompose_goals`, etc.).
-
----
-
-## Known Limitations & Potential Improvements
-
-| Issue | Suggested Fix |
-|---|---|
-| `next_steps` output not shown in UI | Add a fourth `gr.Textbox` output and wire it in `run_btn.click` |
-| `user_name` is hardcoded to `"User"` | Add a name input field in Gradio and pass it through |
-| No error handling for empty inputs | Add input validation before invoking the graph |
-| No streaming — UI freezes during generation | Use `gr.Progress` or stream partial state updates |
-| State is not persisted between sessions | Integrate a database or session store for multi-session support |
 
 ## Contribuer 
 Biruk Geletu
