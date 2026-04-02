@@ -5,7 +5,9 @@
 The **Personalized Learning Path Agent** is an AI-powered application that generates a customized learning curriculum and daily study plan based on a user's current skills and learning goals. It uses prompt chain technque on LangGraph state machine to orchestrate a series of LLM-powered steps, and exposes a simple web interface via Gradio.
 
 ---
-## Architecture
+## Architectural View
+The system is composed of three layers: a **UI layer** (Gradio), an **orchestration layer** (LangGraph state graph), and an **AI layer** (LangChain + OpenAI). User input flows top-down through each layer; results propagate back up to the interface.
+
 ![learning_agent_architecture](https://github.com/user-attachments/assets/3c3f3e0f-e8a0-432c-8fa0-ae34cb0ec411)
 ## Tech Stack
 
@@ -28,49 +30,6 @@ The agent is built on three core libraries:
 | **LangGraph** | Orchestrates the multi-step agentic workflow as a directed state graph |
 | **LangChain + OpenAI** | Powers each node with structured LLM calls (`gpt-4o-mini`) |
 | **Gradio** | Provides the web-based user interface |
-
----
-
-## Architectural View
-
-The system is composed of three layers: a **UI layer** (Gradio), an **orchestration layer** (LangGraph state graph), and an **AI layer** (LangChain + OpenAI). User input flows top-down through each layer; results propagate back up to the interface.
-
-```
-┌──────────────────────────────────────────────────────┐
-│                    UI Layer (Gradio)                  │
-│   skills input │ goals input │ num_days │ Run button  │
-│         summary out │ curriculum out │ plan out       │
-└────────────────────────┬─────────────────────────────┘
-                         │  run_agent()
-                         ▼
-┌──────────────────────────────────────────────────────┐
-│           Orchestration Layer (LangGraph)             │
-│                                                      │
-│  LearningState (Pydantic model — shared across nodes)│
-│                                                      │
-│  ┌─────────────┐   ┌─────────────┐                  │
-│  │ Assess      │──▶│ Decompose   │                  │
-│  │ Skills      │   │ Goals       │                  │
-│  └─────────────┘   └──────┬──────┘                  │
-│                           │                          │
-│  ┌─────────────┐   ┌──────▼──────┐                  │
-│  │ Summarize   │◀──│ Create      │                  │
-│  │ Progress    │   │ Weekly Plan │                  │
-│  └─────────────┘   └─────────────┘                  │
-│                                                      │
-└────────────────────────┬─────────────────────────────┘
-                         │  llm.with_structured_output()
-                         ▼
-┌──────────────────────────────────────────────────────┐
-│                AI Layer (LangChain + OpenAI)          │
-│                                                      │
-│   ChatOpenAI (gpt-4o-mini, temperature=0.7)          │
-│   Structured output schemas (Pydantic v1 models)     │
-│     AssessSkillsOutput │ DecomposeGoalsOutput         │
-│     CreateWeeklyPlanOutput │ SummarizeProgressOutput  │
-└──────────────────────────────────────────────────────┘
-```
-
 
 ---
 
