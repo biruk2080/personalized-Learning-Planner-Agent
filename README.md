@@ -128,25 +128,6 @@ The Gradio interface will launch locally and print a public shareable link (via 
 
 ---
 
-## Configuration
-
-### Changing the LLM
-
-The model is initialized at the top of the file. To switch models or adjust creativity:
-
-```python
-llm = ChatOpenAI(
-    model="gpt-4o-mini",  # Change to "gpt-4o" for higher quality
-    temperature=0.7        # Lower for more deterministic output
-)
-```
-
-### Adjusting Prompts
-
-Each node function contains its own prompt string. To customize the agent's behavior (e.g., focus on a specific domain like coding or language learning), edit the prompt text inside the relevant node function (`assess_skills`, `decompose_goals`, etc.).
-
----
-
 ## Contribuer 
 Biruk Geletu
 Linkedin: https://www.linkedin.com/in/biruk-geletu/
